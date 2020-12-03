@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Modals extends Component {
     render() {
-        const { cart } = this.props;
+        const { cart, xoaGioHang, tangGiamSoLuong } = this.props;
         return (
             <div>
                 <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -34,15 +34,33 @@ class Modals extends Component {
                                                         <td>{product.maSP}</td>
                                                         <td><img width="30px" src={product.hinhAnh} /></td>
                                                         <td>{product.tenSP}</td>
-                                                        <td>{product.soLuong}</td>
-                                                        <td>{product.donGia}</td>
-                                                        <td>{product.soLuong * product.donGia}</td>
+                                                        <td>
+                                                            <button className="btn btn-primary" onClick={() => tangGiamSoLuong(product.maSP, false)}>-</button>
+                                                            {product.soLuong}
+                                                            <button className="btn btn-primary" onClick={() => tangGiamSoLuong(product.maSP, true)}>+</button>
+                                                        </td>
+                                                        <td>{product.donGia.toLocaleString()}</td>
+                                                        <td>{(product.soLuong * product.donGia).toLocaleString()}</td>
+                                                        <td><button className="btn btn-danger" onClick={() => xoaGioHang(product.maSP)}>Xóa</button></td>
                                                     </tr>
                                                 )
                                             })
                                         }
 
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colSpan="5"></td>
+                                            <td>Tổng tiền</td>
+                                            <td>
+                                                {
+                                                    this.props.cart.reduce((tongTien, sp, index) => {
+                                                        return tongTien += sp.soLuong * sp.donGia;
+                                                    },0).toLocaleString()
+                                                }
+                                            </td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

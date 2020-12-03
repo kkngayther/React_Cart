@@ -6,15 +6,7 @@ import Modals from './Modals';
 class ProductList extends Component {
     state = {
         productDetail: productList[0],
-        cart: [
-            {
-                maSP: 1,
-                hinhAnh: "./img/vsphone.jpg",
-                tenSP: "VinSmart Live",
-                donGia: 5700000,
-                soLuong: 1,
-            }
-        ]
+        cart: [],
     }
 
     renderSanPham = () => {
@@ -43,13 +35,36 @@ class ProductList extends Component {
             ]
         })
     }
+    xoaGioHang = (maSP) => {
+        let index = this.state.cart.findIndex(prod => prod.maSP === maSP);
+        this.state.cart.splice(index, 1);
+        this.setState({
+            cart: [...this.state.cart]
+        })
+    }
+    tangGiamSoLuong = (maSP, tangGiam) => {
+        let index = this.state.cart.findIndex(prod => prod.maSP === maSP);
+        if (tangGiam){
+            this.state.cart[index].soLuong += 1;
+        }
+        else if (this.state.cart[index].soLuong !== 1){
+            this.state.cart[index].soLuong -= 1;
+        }
+        this.setState({
+            cart: [...this.state.cart]
+        })
+    }
 
     render() {
         return (
             <div className="container">
-                <Modals cart={this.state.cart}/>
+                <Modals tangGiamSoLuong={this.tangGiamSoLuong} xoaGioHang={this.xoaGioHang} cart={this.state.cart}/>
                 <div className="text-right">
-                    <button className="btn btn-success my-3" data-toggle="modal" data-target="#modelId">Cart</button>
+                    <button className="btn btn-success my-3" data-toggle="modal" data-target="#modelId">Cart (
+                        {this.state.cart.reduce((tongSoLuong, sp, index) => {
+                return tongSoLuong += sp.soLuong;
+            },0)}
+                    )</button>
                 </div>
                 <div className="row">
                     {this.renderSanPham()}
