@@ -22,18 +22,22 @@ class ProductList extends Component {
         })
     }
     addToCart = (product) => {
-        this.setState({
-            cart: [
-                ...this.state.cart,
-                {
-                    maSP: product.maSP,
-                    hinhAnh: product.hinhAnh,
-                    tenSP: product.tenSP,
-                    donGia: product.giaBan,
-                    soLuong: 1,
-                }
-            ]
-        })
+        let index = this.state.cart.findIndex(prod => prod.maSP === product.maSP);
+        if (index !== -1) { }
+        else {
+            this.setState({
+                cart: [
+                    ...this.state.cart,
+                    {
+                        maSP: product.maSP,
+                        hinhAnh: product.hinhAnh,
+                        tenSP: product.tenSP,
+                        donGia: product.giaBan,
+                        soLuong: 1,
+                    }
+                ]
+            })
+        }
     }
     xoaGioHang = (maSP) => {
         let index = this.state.cart.findIndex(prod => prod.maSP === maSP);
@@ -44,10 +48,10 @@ class ProductList extends Component {
     }
     tangGiamSoLuong = (maSP, tangGiam) => {
         let index = this.state.cart.findIndex(prod => prod.maSP === maSP);
-        if (tangGiam){
+        if (tangGiam) {
             this.state.cart[index].soLuong += 1;
         }
-        else if (this.state.cart[index].soLuong !== 1){
+        else if (this.state.cart[index].soLuong !== 1) {
             this.state.cart[index].soLuong -= 1;
         }
         this.setState({
@@ -58,12 +62,12 @@ class ProductList extends Component {
     render() {
         return (
             <div className="container">
-                <Modals tangGiamSoLuong={this.tangGiamSoLuong} xoaGioHang={this.xoaGioHang} cart={this.state.cart}/>
+                <Modals tangGiamSoLuong={this.tangGiamSoLuong} xoaGioHang={this.xoaGioHang} cart={this.state.cart} />
                 <div className="text-right">
                     <button className="btn btn-success my-3" data-toggle="modal" data-target="#modelId">Cart (
                         {this.state.cart.reduce((tongSoLuong, sp, index) => {
-                return tongSoLuong += sp.soLuong;
-            },0)}
+                        return tongSoLuong += sp.soLuong;
+                    }, 0)}
                     )</button>
                 </div>
                 <div className="row">

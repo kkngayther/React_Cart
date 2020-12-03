@@ -41,7 +41,7 @@ class Modals extends Component {
                                                         </td>
                                                         <td>{product.donGia.toLocaleString()}</td>
                                                         <td>{(product.soLuong * product.donGia).toLocaleString()}</td>
-                                                        <td><button className="btn btn-danger" onClick={() => xoaGioHang(product.maSP)}>Xóa</button></td>
+                                                        <td><button className="btn btn-danger" onClick={() => xoaGioHang(product.maSP)}>Remove</button></td>
                                                     </tr>
                                                 )
                                             })
